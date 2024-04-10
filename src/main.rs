@@ -15,14 +15,14 @@ fn main() {
     //println!("{}", puzzle_valid(&a));
 }
 fn row_valid(arr: &Array<i32, Ix2>, check_row: usize) -> bool{
-    let row_set: HashSet<i32> = arr.row(check_row).to_vec().into_iter().collect();
+    let row_set: Vec<i32> = arr.row(check_row).to_vec().into_iter().collect();
     match row_set.len(){
         9 => true,
         _ => false
     }
 }
 fn column_valid(arr: &Array<i32, Ix2>, check_col: usize) -> bool{
-    let col_set: HashSet<i32> = arr.column(check_col).to_vec().into_iter().collect();
+    let col_set: Vec<i32> = arr.column(check_col).to_vec().into_iter().collect();
     match col_set.len(){
         9 => true,
         _ => false
@@ -33,6 +33,9 @@ fn column_valid(arr: &Array<i32, Ix2>, check_col: usize) -> bool{
     let (split_above, split_below) = arr.split_at(Axis(0), check_sq-1);
     true
 }*/
-fn get_square<'a>(arr: &ArrayView<'a, i32, Ix2>, sq: usize) -> HashSet<i32>{
-
+fn get_square<'a>(arr: &ArrayView<'a, i32, Ix2>, sq: usize) -> Vec<i32>{
+    let (above, below) = arr.split_at(Axis(0), 3);
+    let (left, right) = above.split_at(Axis(1), 3);
+    left.
+    
 }
