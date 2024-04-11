@@ -1,5 +1,4 @@
 use ndarray::{array,Array, Ix2, Axis, ArrayView};
-use std::collections::HashSet;
 
 fn main() {
     let a = array![[0,0,0,0,0,0,0,0,0],
@@ -14,19 +13,11 @@ fn main() {
   
     //println!("{}", puzzle_valid(&a));
 }
-fn row_valid(arr: &Array<i32, Ix2>, check_row: usize) -> bool{
-    let row_set: Vec<i32> = arr.row(check_row).to_vec().into_iter().collect();
-    match row_set.len(){
-        9 => true,
-        _ => false
-    }
+fn get_row(arr: &Array<i32, Ix2>, row: usize) -> Vec<i32>{
+    arr.row(row).to_vec().into_iter().collect()
 }
-fn column_valid(arr: &Array<i32, Ix2>, check_col: usize) -> bool{
-    let col_set: Vec<i32> = arr.column(check_col).to_vec().into_iter().collect();
-    match col_set.len(){
-        9 => true,
-        _ => false
-    }
+fn get_col(arr: &Array<i32, Ix2>, col: usize) -> Vec<i32>{
+    arr.column(col).to_vec().into_iter().collect()
 }
 /*fn square_valid(arr: &ArrayView<'a, &i32, Ix2>, check_sq: u8) -> bool{
     let check_h = (check_sq - 1) - ((check_sq - 1) % 3);
@@ -34,8 +25,13 @@ fn column_valid(arr: &Array<i32, Ix2>, check_col: usize) -> bool{
     true
 }*/
 fn get_square<'a>(arr: &ArrayView<'a, i32, Ix2>, sq: usize) -> Vec<i32>{
-    let (above, below) = arr.split_at(Axis(0), 3);
-    let (left, right) = above.split_at(Axis(1), 3);
-    left.
-    
+    sq = sq - 1;
+    let vt = ((sq) % 3) * 3;
+    let hz = sq - (vt / 3);
+    let (_above, below) = arr.split_at(Axis(0), hz);
+    let (after, _discard) = below.split_at(Axis(0), 3);
+    let (_left, right) = after.split_at(Axis(1), vt);
+    let (final, _discard) =  right.split_at(Axis(1), 3);
+    let x = Array::from_iter(final.iter()).to_vec().iter().map(|x|**x).collect();
+    x
 }
